@@ -1,0 +1,30 @@
+---
+# tasks file for apigee-opdk-cassandra-change-replication-factor
+- name: Validate that opdk_region is provided
+  fail:
+    msg: Please indicate the opdk_region to use from those available in the profiles folder
+  when: opdk_region is not defined
+
+- name: Validate that keyspace is provided
+  fail:
+    msg: Please indicate the keyspace to use from those available in the profiles folder
+  when: keyspace is not defined
+
+- name: Validate that replication_factor is provided
+  fail:
+    msg: Please indicate the replication_factor to use from those available in the profiles folder
+  when: replication_factor is not defined
+
+- name: Construct CQL file
+  template:
+    src: alter_replication_factor.cql.j2
+    dest: /tmp/alter_replication_factor.cql
+
+- name: Keyspace before modification
+  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep 'CREATE KEYSPACE {{ keyspace }}'"
+
+- name: Execute CQL statements
+  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -f /tmp/alter_replication_factor.cql {{ local_address }} "
+
+- name: Keyspace after modification
+  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep 'CREATE KEYSPACE {{ keyspace }}'"
