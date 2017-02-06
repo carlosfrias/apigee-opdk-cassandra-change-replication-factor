@@ -15,24 +15,7 @@
     msg: Please indicate the replication_factor to use
   when: replication_factor is not defined
 
-- block:
-
-  - name: Keyspace before modification
-    shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ item }}' {{ local_address }} | grep 'CREATE KEYSPACE {{ keyspace }}'"
-
-  - name: Prep keyspace for template
-    set_fact:
-      keyspace: '{{ item }}'
-
-  - name: Construct CQL file
-    template:
-      src: alter_replication_factor.cql.j2
-      dest: /tmp/alter_replication_factor.cql
-
-  - name: Execute CQL statements
-    shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -f /tmp/alter_replication_factor.cql {{ local_address }} "
-
-  - name: Keyspace after modification
-    shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ item }}' {{ local_address }} | grep 'CREATE KEYSPACE {{ keyspace }}'"
-
-  with_items: '{{ keyspaces }}'
+- include: keyspace.yml
+  with_items:  '{{ keyspaces }}'
+  loop_control:
+    loop_var: keyspace
