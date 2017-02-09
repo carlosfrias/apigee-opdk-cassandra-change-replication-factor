@@ -1,6 +1,6 @@
 ---
 - name: Keyspace before modification
-  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep 'CREATE KEYSPACE {{ keyspace }}'"
+  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep -C3 'CREATE KEYSPACE {{ keyspace }}'"
 
 - name: Construct CQL file
   template:
@@ -11,4 +11,4 @@
   shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -f /tmp/alter_replication_factor.cql {{ local_address }} "
 
 - name: Keyspace after modification
-  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep 'CREATE KEYSPACE {{ keyspace }}'"
+  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep -C3 'CREATE KEYSPACE {{ keyspace }}'"
