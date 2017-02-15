@@ -8,7 +8,7 @@
 - name: Set consistency when local_quorum is set
   set_facts:
     consistency: LOCAL_QUORUM
-  when: local_quorum is defined and local_quorum | bool(true)
+  when: local_quorum is defined and local_quorum | bool
 
 - name: Set consistency when local_quorum is not set
   set_facts:
