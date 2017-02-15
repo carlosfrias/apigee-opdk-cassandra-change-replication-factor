@@ -1,10 +1,5 @@
 ---
 # tasks file for apigee-opdk-cassandra-change-replication-factor
-- name: Validate that opdk_region is provided
-  fail:
-    msg: Please indicate the opdk_region to use
-  when: opdk_region is not defined
-
 - name: Validate that keyspaces collection is provided
   fail:
     msg: Please indicate the keyspaces to use
@@ -14,6 +9,11 @@
   fail:
     msg: Please indicate the replication_factor to use
   when: replication_factor is not defined
+
+- name: Validate that consistency is provided
+  fail:
+    msg: Please indicate the consistency to use
+  when: consistency is not defined
 
 - include: keyspace.yml
   with_items:  '{{ keyspaces }}'
