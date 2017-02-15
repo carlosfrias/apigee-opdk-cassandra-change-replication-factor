@@ -1,4 +1,20 @@
 ---
+
+- name: Validate that local_quorum is provided
+  fail:
+    msg: Please indicate whether local_quorum yes or no
+  when: local_quorum is not defined
+
+- name: Set consistency when local_quorum is set
+  set_facts:
+    consistency: LOCAL_QUORUM
+  when: local_quorum is defined and local_quorum | bool(true)
+
+- name: Set consistency when local_quorum is not set
+  set_facts:
+    consistency: QUORUM
+  when: local_quorum | default(false)
+
 - name: Construct CQL file
   template:
     src: quorum.cql.j2
