@@ -10,12 +10,14 @@
     msg: Please indicate the replication_factor to use
   when: replication_factor is not defined
 
-- name: Validate that consistency is provided
+- name: Validate that local_quorum is provided
   fail:
-    msg: Please indicate the consistency to use
-  when: consistency is not defined
+    msg: Please indicate whether local_quorum yes or no
+  when: local_quorum is not defined
 
 - include: keyspace.yml
   with_items:  '{{ keyspaces }}'
   loop_control:
     loop_var: keyspace
+
+- include: quorum.yml

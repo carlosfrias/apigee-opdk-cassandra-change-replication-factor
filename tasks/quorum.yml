@@ -1,0 +1,8 @@
+---
+- name: Construct CQL file
+  template:
+    src: quorum.cql.j2
+    dest: /tmp/quorum.cql
+
+- name: Update QUORUM settings
+  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -f /tmp/quorum.cql {{ local_address }} "
