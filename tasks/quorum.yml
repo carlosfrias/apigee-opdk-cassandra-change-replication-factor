@@ -1,25 +1,16 @@
 ---
-- name: Validate that local_quorum is provided
-  fail:
-    msg: Please indicate whether local_quorum yes or no
-  when: local_quorum is not defined
-
-- debug: var=local_quorum
+- name: local_quorum
+  debug: var=local_quorum
+  when: local_quorum is defined
 
 - set_fact:
-    lq: "{{ local_quorum | bool }}"
+    lq: "{{ local_quorum | default(false) | bool }}"
 
 - debug: var=lq
 
 - name: Set consistency when local_quorum is set
   set_fact:
-    consistency: 'LOCAL_QUORUM'
-  when: local_quorum is defined and local_quorum in ['yes', 'true', 'True', 'no', 'No', 'False']
-
-- name: Set consistency when local_quorum is not set
-  set_fact:
-    consistency: 'QUORUM'
-  when: local_quorum | default(false)
+    consistency: '{{ lq }}'
 
 - name: Construct CQL file
   template:
