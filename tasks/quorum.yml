@@ -7,7 +7,7 @@
 - debug: var=local_quorum
 
 - set_fact:
-    lq: "{{ bool(local_quorum) }}"
+    lq: "{{ local_quorum | bool }}"
 
 - debug: var=lq
 
