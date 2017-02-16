@@ -1,9 +1,10 @@
 ---
-
 - name: Validate that local_quorum is provided
   fail:
     msg: Please indicate whether local_quorum yes or no
   when: local_quorum is not defined
+
+- debug: var=local_quorum
 
 - name: Set consistency when local_quorum is set
   set_fact:
