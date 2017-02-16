@@ -9,7 +9,7 @@
 - name: Set consistency when local_quorum is set
   set_fact:
     consistency: 'LOCAL_QUORUM'
-  when: local_quorum is defined and bool(local_quorum)
+  when: local_quorum is defined and local_quorum in ['yes', 'true', 'True', 'no', 'No', 'False']
 
 - name: Set consistency when local_quorum is not set
   set_fact:
