@@ -10,7 +10,13 @@
 
 - name: Set consistency when local_quorum is set
   set_fact:
-    consistency: '{{ lq }}'
+    consistency: LOCAL_QUORUM
+  when: lq
+
+- name: Set consistency when local_quorum is not set
+  set_fact:
+    consistency: QUORUM
+  when: not lq
 
 - name: Construct CQL file
   template:
