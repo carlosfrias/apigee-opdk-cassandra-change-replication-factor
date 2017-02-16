@@ -9,6 +9,10 @@
   fail:
     msg: Please indicate the replication_factor to use
   when: replication_factor is not defined
+#
+#- include: quorum.yml
+#  vars:
+#    consistency: TWO
 
 - include: keyspace.yml
   with_items:  '{{ keyspaces }}'
