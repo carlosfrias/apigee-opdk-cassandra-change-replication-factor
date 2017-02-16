@@ -18,5 +18,3 @@
   with_items:  '{{ keyspaces }}'
   loop_control:
     loop_var: keyspace
-
-- include: quorum.yml
