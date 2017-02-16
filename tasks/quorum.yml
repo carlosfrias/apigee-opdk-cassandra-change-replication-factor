@@ -6,12 +6,12 @@
   when: local_quorum is not defined
 
 - name: Set consistency when local_quorum is set
-  set_facts:
+  set_fact:
     consistency: 'LOCAL_QUORUM'
   when: local_quorum is defined and local_quorum
 
 - name: Set consistency when local_quorum is not set
-  set_facts:
+  set_fact:
     consistency: 'QUORUM'
   when: local_quorum | default(false)
 
