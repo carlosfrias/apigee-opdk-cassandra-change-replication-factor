@@ -1,19 +1,14 @@
 ---
-- name: local_quorum
-  debug: var=local_quorum
-  when: local_quorum is defined
-
-- set_fact:
+- name: Set the local_quorum setting
+  set_fact:
     lq: "{{ local_quorum | default(false) | bool }}"
 
-- debug: var=lq
-
-- name: Set consistency when local_quorum is set
+- name: Set consistency to LOCAL_QUORUM when local_quorum is set
   set_fact:
     consistency: LOCAL_QUORUM
   when: lq
 
-- name: Set consistency when local_quorum is not set
+- name: Set consistency to QUORUM when local_quorum is not set
   set_fact:
     consistency: QUORUM
   when: not lq
@@ -23,5 +18,5 @@
     src: quorum.cql.j2
     dest: /tmp/quorum.cql
 
-- name: Update QUORUM settings
+- name: Appy consistency settings
   shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -f /tmp/quorum.cql {{ local_address }} "
