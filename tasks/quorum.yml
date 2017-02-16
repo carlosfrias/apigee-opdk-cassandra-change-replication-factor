@@ -6,6 +6,11 @@
 
 - debug: var=local_quorum
 
+- set_fact:
+    lq: "bool(local_quorum)"
+
+- debug: var=lq
+
 - name: Set consistency when local_quorum is set
   set_fact:
     consistency: 'LOCAL_QUORUM'
