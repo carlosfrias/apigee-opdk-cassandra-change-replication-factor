@@ -4,7 +4,7 @@
 
 - name: Construct CQL file
   template:
-    src: replication_factor.cql.j2
+    src: update_replication_factor.cql.j2
     dest: /tmp/replication_factor.cql
 
 - name: Execute CQL statements
