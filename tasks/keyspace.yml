@@ -3,8 +3,8 @@
   shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep -C3 'CREATE KEYSPACE {{ keyspace }}'"
 
 - name: Set consistency to TWO to prepare for replication factor update
-  set_facts:
-    consistency: TWO
+  set_fact:
+    consistency: "TWO"
 
 - name: Construct CQL file
   template:
