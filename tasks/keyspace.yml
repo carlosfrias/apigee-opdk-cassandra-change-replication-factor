@@ -1,10 +1,13 @@
 ---
+- name: Show system.schema_keyspaces before changes
+  shell: "{{ cqlsh }} -e 'select * from system.schema_keyspaces' {{ local_address }}"
+
 - name: Set consistency to TWO to prepare for replication factor update
   set_fact:
     consistency: "TWO"
 
 - name: Keyspace before modification
-  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep -C3 'CREATE KEYSPACE {{ keyspace }}'"
+  shell: "{{ cqlsh }} -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep -C4 'CREATE KEYSPACE {{ keyspace }}'"
 
 - name: Construct CQL file
   template:
@@ -12,7 +15,10 @@
     dest: /tmp/replication_factor.cql
 
 - name: Execute replication factor update
-  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -f /tmp/replication_factor.cql {{ local_address }} "
+  shell: "{{ cqlsh }} -f /tmp/replication_factor.cql {{ local_address }} "
 
 - name: Keyspace after modification
-  shell: "{{ apigee_installation_home }}/apigee-cassandra/bin/cqlsh -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep -C3 'CREATE KEYSPACE {{ keyspace }}'"
+  shell: "{{ cqlsh }} -e 'DESCRIBE KEYSPACE {{ keyspace }}' {{ local_address }} | grep -C4 'CREATE KEYSPACE {{ keyspace }}'"
+
+- name: Show system.schema_keyspaces after changes
+  shell: "{{ cqlsh }} -e 'select * from system.schema_keyspaces' {{ local_address }}"
