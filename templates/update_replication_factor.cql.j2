@@ -1,2 +1,2 @@
 CONSISTENCY {{ consistency }};
-ALTER KEYSPACE {{ keyspace }} WITH REPLICATION = { 'class': 'NetworkTopologyStrategy', 'dc1': {{ replication_factor }}, 'dc2': {{ replication_factor }} };
+ALTER KEYSPACE {{ keyspace }} WITH REPLICATION = { 'class': 'NetworkTopologyStrategy', 'dc-1': {{ replication_factor }}, 'dc-2': {{ replication_factor }} };
